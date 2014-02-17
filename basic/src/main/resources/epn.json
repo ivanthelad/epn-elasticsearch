@@ -1,0 +1,80 @@
+{
+    "name": "ElasticSearchEPN",
+    "version": "1",
+
+    "subscriptions": [
+        {
+            "nodeName": "ElasticSearchActivityUnitStore",
+            "subject": "ActivityUnits"
+        } ,
+        {
+            "nodeName": "ElasticSearchResponseTimeStore",
+            "subject": "ServiceResponseTimes"
+
+        }   ,
+        {
+            "nodeName": "ElasticSearchSituationStore",
+            "subject": "Situations"
+
+        }
+
+    ],
+    "nodes": [
+        {
+            "name": "ElasticSearchActivityUnitStore",
+            "destinationSubjects": [ "ElasticSearchActivityUnitStore"],
+            "eventProcessor": {
+                "@class": "org.jboss.rtgov.elasticsearch.processors.BasicElasticSearchProcessor",
+                "script": "NONE",
+                "services": {
+                    "BasicElasticRepo": {
+                        "@class": "org.jboss.rtgov.elasticsearch.repo.elastic.impl.api.BasicElasticAPIRepo",
+                        "index": "monitor12",
+                        "type": "activity",
+                        "host": "localhost",
+                        "port": "9300"
+                    }
+                }
+            }
+        },
+        {
+            "name": "ElasticSearchResponseTimeStore",
+            "destinationSubjects": [ "ElasticSearchResponseTimeStore"],
+            "eventProcessor": {
+                "@class": "org.jboss.rtgov.elasticsearch.processors.BasicElasticSearchProcessor",
+                "script": "NONE",
+                "services": {
+                    "BasicElasticRepo": {
+                        "@class": "org.jboss.rtgov.elasticsearch.repo.elastic.impl.api.BasicElasticAPIRepo",
+                        "index": "monitor12",
+                        "type": "responsetime",
+                        "host": "localhost",
+                        "port": "9300"
+                    }
+                }
+            }
+        } ,
+        {
+            "name": "ElasticSearchSituationStore",
+            "destinationSubjects": [ "ElasticSearchSituationStore"],
+            "predicate": {
+                "@class": "org.overlord.rtgov.ep.mvel.MVELPredicate",
+                "expression": "event instanceof org.overlord.rtgov.analytics.situation.Situation"
+            },
+            "eventProcessor": {
+                "@class": "org.jboss.rtgov.elasticsearch.processors.BasicElasticSearchProcessor",
+                "script": "NONE",
+                "services": {
+                    "BasicElasticRepo": {
+                        "@class": "org.jboss.rtgov.elasticsearch.repo.elastic.impl.api.BasicElasticAPIRepo",
+                        "index": "monitor12",
+                        "type": "situation",
+                        "host": "localhost",
+                        "port": "9300"
+                    }
+                }
+            }
+        }
+
+
+    ]}

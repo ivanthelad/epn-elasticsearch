@@ -1,0 +1,13 @@
+{"situation": {
+    "_parent": {
+        "type": "contracthandlervb"
+    },
+    "_routing": {
+        "required": true,
+        "path": "_id"
+    },
+    "_timestamp" : {
+        "enabled" : true,
+        "path" : "timestamp"
+    }
+}}

@@ -1,0 +1,97 @@
+import org.overlord.rtgov.activity.model.soa.RequestReceived
+import org.overlord.rtgov.activity.model.soa.ResponseSent
+import org.overlord.rtgov.analytics.service.ResponseTime
+
+global org.overlord.rtgov.ep.EPContext epc
+
+declare RequestReceived
+    @role( event )
+    @timestamp
+    @expires( 50s )
+end
+
+declare ResponseSent
+    @role( event )
+    @timestamp
+    @expires( 50s )
+end
+//declare window LastMessageWindow
+  //  RequestReceived() before window:time(3s)   from entry-point "ESBResponseSent"
+//end
+
+// the after rule ensures that the
+rule "correlate request and response"
+when
+    $req : RequestReceived( $id : properties["Conversation"]  )           from entry-point "ESBRequestReceived"
+    $resp : ResponseSent( properties["Conversation"] == $id) from entry-point "ESBResponseSent"
+then
+          //http://docs.jboss.org/drools/release/5.2.0.CR1/drools-fusion-docs/html/ch02.html
+	ResponseTime rt=new ResponseTime();
+      	epc.logError("1Error occured on processing********************* ");
+      	epc.logError("2Error occured on processing********************* ");
+      	epc.logError("3Error occured on processing********************* ");
+      	epc.logError("4Error occured on processing********************* ");
+      	epc.logError("5Error occured on processing********************* ");
+
+	rt.setServiceType($req.getServiceType());
+	rt.setInterface($req.getInterface());
+	rt.setOperation($req.getOperation());
+	rt.setFault($resp.getFault());
+
+	long responseTime=$resp.getTimestamp()-$req.getTimestamp();
+	rt.setAverage(responseTime);
+    epc.handle(rt);
+
+end
+
+/*rule "2correlate request and response"
+when
+    $req : RequestReceived( $id : properties["Conversation"] )  from entry-point "ESBRequestReceived"
+   not ( ResponseSent(properties["Conversation"] == $id,this after[5s] $req)   from entry-point "ESBResponseSent"  )
+
+then
+          //http://docs.jboss.org/drools/release/5.2.0.CR1/drools-fusion-docs/html/ch02.html
+	ResponseTime rt=new ResponseTime();
+      	epc.logError("ARGGGG ");
+      	epc.logError("ARGGGG ");
+      	epc.logError("ARGGGG ");
+      	epc.logError("ARGGGG ");
+
+
+end*/
+rule "3correlate request and response"
+ duration( 3s )
+when
+    $req : RequestReceived( $id : properties["Conversation"] )  from entry-point "ESBRequestReceived"
+  // not ( ResponseSent(  this after [ 0,3s ] $req)  from "ESBRequestSent")
+
+ not (ResponseSent( properties["Conversation"] == $id,this after [ 0,3s ] $req)   from entry-point "ESBRequestSent" )
+then
+	ResponseTime rt=new ResponseTime();
+      	epc.logError("Response have not been sent within 5 seconds  ");
+
+
+end
+//rule "Event did not happen in the last 15m"
+//when
+//   not( SomeEvent() over time:window(15m) )
+//...
+
+
+//http://javadude.wordpress.com/2012/03/14/drools-fusion-samples/
+          //http://docs.jboss.org/drools/release/5.2.0.CR1/drools-fusion-docs/html/ch02.html
+
+
+
+
+//rule "RULE 6"
+//when
+//    time1:FlightTime(key:flightkey,type=='LAND') from entry-point entryone
+//    not (
+//        FlightTime(flightkey == key, type=='ONBL', this after[ 0,5m ] time1) from entry-point entryone
+//        )
+//then
+//    System.out.println("Missing ONBL after 5min LAND: " + time1.getFlightkey() );
+//    System.out.println("Session Time at rule trigger: " + (drools.getWorkingMemory().getSessionClock().getCurrentTime())/60000);
+//end
+//http://www.ibm.com/developerworks/opensource/library/j-drools5/index.html

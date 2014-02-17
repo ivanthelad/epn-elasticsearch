@@ -1,0 +1,41 @@
+
+def hello() { System.out.println("Request Received..................");
+    System.out.println("Propeties "+event.properties);
+    System.out.println("Context "+event.context);
+    System.out.println("Event "+event);
+}
+//hello();
+
+System.out.println("Request Received..................");
+String contractID=event.context.get("Conversation");
+
+if (contractID == null) {
+    return;
+}
+
+cm = epc.getService("CacheManager");
+
+// Attempt to lock the entry
+if (!cm.lock("RequestReceived", contract)) {
+    epc.handle(new Exception("Unable to lock entry for contract '"+contractID+"'"));
+    return;
+}
+// Access the cache of principals
+contracts = cm.getCache("RequestReceived");
+contract = contracts.get(contractID);
+if (contract== null) {
+    contract = new java.util.HashMap();
+}
+java.util.Date now=new java.util.Date();
+
+
+contract.put(event.serviceType+"-lastaccess", now);
+contracts.put(customer, contract);
+
+
+System.out.println(".............."+contracts)
+epc.logInfo("Added contract RequestReceived '"+contractID+"': ");
+
+
+
+
