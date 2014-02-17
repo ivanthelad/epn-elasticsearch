@@ -29,7 +29,7 @@
                 "services": {
                     "BasicElasticRepo": {
                         "@class": "org.jboss.rtgov.elasticsearch.repo.elastic.impl.api.BasicElasticAPIRepo",
-                        "index": "monitor12",
+                        "index": "rtgov",
                         "type": "activity",
                         "host": "localhost",
                         "port": "9300"
@@ -46,7 +46,7 @@
                 "services": {
                     "BasicElasticRepo": {
                         "@class": "org.jboss.rtgov.elasticsearch.repo.elastic.impl.api.BasicElasticAPIRepo",
-                        "index": "monitor12",
+                        "index": "rtgov",
                         "type": "responsetime",
                         "host": "localhost",
                         "port": "9300"
@@ -67,7 +67,7 @@
                 "services": {
                     "BasicElasticRepo": {
                         "@class": "org.jboss.rtgov.elasticsearch.repo.elastic.impl.api.BasicElasticAPIRepo",
-                        "index": "monitor12",
+                        "index": "rtgov",
                         "type": "situation",
                         "host": "localhost",
                         "port": "9300"

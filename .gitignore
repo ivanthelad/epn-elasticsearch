@@ -3,7 +3,7 @@
 *.idea
 idea
 
-# Compiled source #
+# Compiled  and built source #
 ###################
 *.com
 *.class
@@ -12,6 +12,10 @@ idea
 *.o
 *.so
 *.iml
+*.jar
+*.war
+target
+
 # Logs and databases #
 ######################
 *.log
