@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 public abstract class AbstractElasticRepo<K,E> extends Service implements ElasticRepo<K,E>  {
 
     protected ObjectMapper MAPPER = null;
-    //todo . Make configurable Elastic Search url.
+    //todo . Make configurable Elastic Search url. eg a list would be desired. currently not a list because of legacy rest version i had
     protected String index = null;
     protected String type = null;
     //todo change host and port to be a list of connections as opposed to a single connection.
@@ -39,7 +39,7 @@ public abstract class AbstractElasticRepo<K,E> extends Service implements Elasti
 
     protected  String convertTypeToJson(E obj) throws ElasticSearchException {
         try {
-            logger.info("[/"+index+"/"+type+"] Converting to json document from Type [" + obj.getClass().getName() + "] ");
+            logger.info("[/"+index.toLowerCase()+"/"+type+"] Converting to json document from Type [" + obj.getClass().getName() + "] ");
 
             return ActivityUtil.objectToJSONString(obj);
 
@@ -79,7 +79,7 @@ public abstract class AbstractElasticRepo<K,E> extends Service implements Elasti
     }
 
     public void setIndex(String index) {
-        this.index = index;
+        this.index = index.toLowerCase();
     }
 
     public String getType() {
@@ -87,6 +87,7 @@ public abstract class AbstractElasticRepo<K,E> extends Service implements Elasti
     }
 
     public void setType(String type) {
-        this.type = type;
+        //
+        this.type = type.toLowerCase();
     }
 }

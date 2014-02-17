@@ -16,7 +16,7 @@ import javax.ejb.Startup;
 public class InitStartup {
     @PostConstruct
     void init() {
-        System.out.println( "Staring up ");
+        System.out.println( "Starting up ");
 
 
     }

@@ -17,6 +17,7 @@ import java.util.logging.Logger;
  * User: imk@redhat.com
  * Date: 03/02/14
  * Time: 10:35
+ * TODO mvel processor which
  */
 public  class BasicElasticSearchProcessor extends EventProcessor {
     private static final Logger LOG=Logger.getLogger(BasicElasticSearchProcessor.class.getName());
@@ -26,6 +27,7 @@ public  class BasicElasticSearchProcessor extends EventProcessor {
     private ElasticRepo basicElasticRestRepo = null;
     private String script=null;
     private Object scriptExpression=null;
+    // TODO
     private String correleationScript = null ;
 
     public Object getScriptExpression() {
