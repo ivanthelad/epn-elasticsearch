@@ -1,4 +1,4 @@
-Service Level Agreement - Event Processor Network
+Elasticsearch - Event Processor Network
 =================================================
 
 This quickstart provides an example of an Event Processor Network that stores ActivityUnits, ResponseTime and Situations to ElasticSearch
