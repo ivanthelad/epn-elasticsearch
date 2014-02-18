@@ -8,7 +8,7 @@
 
 	<parent>
 		<groupId>org.overlord.rtgov.samples.jbossas</groupId>
-		<artifactId>elasticsearch</artifactId>
+		<artifactId>epn-elasticsearch</artifactId>
 		<version>1.0.1.Final-redhat-4</version>
 	</parent>
 
